@@ -1,7 +1,8 @@
-"use client";
+'use client';
 
-import { Pencil1Icon } from "@radix-ui/react-icons";
-import users from "./users.json";
+import { Cross1Icon, Pencil1Icon } from '@radix-ui/react-icons';
+import users from './users.json';
+import * as Dialog from '@radix-ui/react-dialog';
 
 export default function Page() {
   return (
@@ -18,9 +19,37 @@ export default function Page() {
               <p className="text-sm text-gray-500">{user.email}</p>
             </div>
             <div>
-              <button className="rounded p-2 hover:bg-gray-200">
-                <Pencil1Icon />
-              </button>
+              <Dialog.Root>
+                <Dialog.Trigger className="rounded p-2 hover:bg-gray-200">
+                  <Pencil1Icon />
+                </Dialog.Trigger>
+
+                <Dialog.Portal>
+                  <Dialog.Overlay className='fixed inset-0 bg-black/50' />
+
+                  <Dialog.Content className='fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white text-green-900 shadow p-8 rounded-md w-full max-w-md'>
+                    <div className="flex items-center justify-between mb-6">
+                      <Dialog.Title className="text-xl">Edit contact</Dialog.Title>
+                      <Dialog.Close className='text-grey-400 hover:text-gray-500'>
+                        <Cross1Icon />
+                      </Dialog.Close>
+                    </div>
+
+                    <div className="mt-4">
+                      <UserFields user={user} />
+                    </div>
+
+                    <div className='mt-8 text-right space-x-6'>
+                      <Dialog.Close className='px-4 py-2 text-sm font-medium  text-gray-500 hover:text-gray-600'>
+                        Cancel
+                      </Dialog.Close>
+                      <button className='bg-green-500 px-4 py-2 text-sm font-medium text-white rounded-sm hover:bg-green-600'>
+                        Save
+                      </button>
+                    </div>
+                  </Dialog.Content>
+                </Dialog.Portal>
+              </Dialog.Root>
             </div>
           </div>
         ))}
